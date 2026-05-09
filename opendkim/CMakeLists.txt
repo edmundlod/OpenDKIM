@@ -50,6 +50,18 @@ if(WITH_LUA)
     find_package(Lua 5.4 EXACT REQUIRED)
 endif()
 
+# ── Redis / hiredis (optional) ────────────────────────────────────────────────
+
+option(WITH_REDIS "Build with Redis (hiredis) backend support" OFF)
+
+if(WITH_REDIS)
+    find_library(HIREDIS_LIBRARY NAMES hiredis)
+    find_path(HIREDIS_INCLUDE_DIR NAMES hiredis/hiredis.h)
+    if(NOT HIREDIS_LIBRARY OR NOT HIREDIS_INCLUDE_DIR)
+        message(FATAL_ERROR "hiredis not found. Install libhiredis-dev / hiredis-devel.")
+    endif()
+endif()
+
 # ── pthreads ──────────────────────────────────────────────────────────────────
 
 find_package(Threads REQUIRED)
@@ -130,6 +142,12 @@ function(configure_daemon_target tgt)
         target_compile_definitions(${tgt} PRIVATE USE_LUA=1)
         target_include_directories(${tgt} PRIVATE ${LUA_INCLUDE_DIR})
         target_link_libraries(${tgt} PRIVATE ${LUA_LIBRARIES})
+    endif()
+
+    if(WITH_REDIS)
+        target_compile_definitions(${tgt} PRIVATE USE_REDIS=1)
+        target_include_directories(${tgt} PRIVATE ${HIREDIS_INCLUDE_DIR})
+        target_link_libraries(${tgt} PRIVATE ${HIREDIS_LIBRARY})
     endif()
 endfunction()
 
