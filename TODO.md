@@ -72,6 +72,9 @@ Go through all the issues at https://github.com/trusteddomainproject/OpenDKIM/is
 
 Also look at distro's (Fedora, OpenSUSE, Debian, Gentoo, e.a.) that might have created their own patches. Something useful for us?
 
+Debian (debian/ package config as well as patches):
+https://salsa.debian.org/debian/opendkim/-/tree/master/debian?ref_type=heads
+
 https://codeberg.org/gentoo/gentoo/src/branch/master/mail-filter/opendkim/files
 For OpenRC:
 https://codeberg.org/gentoo/gentoo/src/branch/master/mail-filter/opendkim/files/opendkim-2.10.3-openrc.patch
